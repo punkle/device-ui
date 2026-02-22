@@ -5,3 +5,4 @@
 .vscode/ipch
 studio
 build
+generated/builtin_apps/

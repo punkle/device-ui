@@ -10,6 +10,7 @@ extern "C" {
 extern const lv_img_dsc_t img_meshtastic_boot_logo_image;
 extern const lv_img_dsc_t img_settings_button_image;
 extern const lv_img_dsc_t img_map_button_image;
+extern const lv_img_dsc_t img_apps_button_image;
 extern const lv_img_dsc_t img_messages_button_image;
 extern const lv_img_dsc_t img_groups_button_image;
 extern const lv_img_dsc_t img_nodes_button_image;
@@ -106,8 +107,7 @@ typedef struct _ext_img_desc_t {
 } ext_img_desc_t;
 #endif
 
-extern const ext_img_desc_t images[90];
-
+extern const ext_img_desc_t images[91];
 
 #ifdef __cplusplus
 }

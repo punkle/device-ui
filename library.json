@@ -33,6 +33,7 @@
       "-Iinclude",
       "-Igenerated",
       "-Ilocale",
+      "-Isource/berry/vendor",
       "-DLV_LVGL_H_INCLUDE_SIMPLE",
       "-DLV_CONF_INCLUDE_SIMPLE",
       "-DLV_COMP_CONF_INCLUDE_SIMPLE"

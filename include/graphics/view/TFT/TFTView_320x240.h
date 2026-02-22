@@ -5,6 +5,9 @@
 #include <set>
 
 class MapPanel;
+#ifdef HAS_APP_FRAMEWORK
+#include "berry/BerryRuntime.h"
+#endif
 
 /**
  * @brief GUI view for e.g. T-Deck
@@ -276,6 +279,11 @@ class TFTView_320x240 : public MeshtasticView
     // static void ui_event_HomeButton(lv_event_t * e);
     static void ui_event_NodesButton(lv_event_t *e);
     static void ui_event_GroupsButton(lv_event_t *e);
+#ifdef HAS_APP_FRAMEWORK
+    static void ui_event_AppsButton(lv_event_t *e);
+    static void ui_event_AppItemButton(lv_event_t *e);
+    static void ui_event_AppCloseButton(lv_event_t *e);
+#endif
     static void ui_event_MessagesButton(lv_event_t *e);
     static void ui_event_MapButton(lv_event_t *e);
     static void ui_event_SettingsButton(lv_event_t *e);
@@ -387,6 +395,19 @@ class TFTView_320x240 : public MeshtasticView
     lv_obj_t *activeButton = nullptr;
     lv_obj_t *activePanel = nullptr;
     lv_obj_t *activeTopPanel = nullptr;
+#ifdef HAS_APP_FRAMEWORK
+    lv_obj_t *appsPanel = nullptr;
+    lv_obj_t *topAppsPanel = nullptr;
+    lv_obj_t *appRunPanel = nullptr;
+    lv_obj_t *topAppRunPanel = nullptr;
+    lv_obj_t *appRunLabel = nullptr;
+    BerryRuntime *berryRuntime = nullptr;
+    std::vector<AppManifest> appList;
+    std::vector<lv_image_dsc_t> appIconDescriptors;
+    void loadAppList();
+    void scanSDApps();
+    void populateAppsPanel();
+#endif
     lv_obj_t *activeMsgContainer = nullptr;
     lv_obj_t *activeWidget = nullptr;
     lv_obj_t *activeTextInput = nullptr;
