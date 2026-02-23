@@ -419,6 +419,7 @@ void TFTView_320x240::init_screens(void)
         lv_obj_set_pos(obj, LV_PCT(12), LV_PCT(10));
         lv_obj_set_size(obj, LV_PCT(88), LV_PCT(90));
         lv_obj_add_flag(obj, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
         add_style_panel_style(obj);
     }
     {
@@ -1212,6 +1213,26 @@ void TFTView_320x240::ui_event_AppsButton(lv_event_t *e)
 #endif
 
 #ifdef HAS_APP_FRAMEWORK
+// Parse comma-separated capabilities string into vector
+static std::vector<std::string> parseCapabilities(const char *caps)
+{
+    std::vector<std::string> result;
+    if (!caps || !*caps)
+        return result;
+    std::string s(caps);
+    size_t pos = 0;
+    while (pos < s.size()) {
+        size_t comma = s.find(',', pos);
+        if (comma == std::string::npos)
+            comma = s.size();
+        std::string cap = s.substr(pos, comma - pos);
+        if (!cap.empty())
+            result.push_back(cap);
+        pos = comma + 1;
+    }
+    return result;
+}
+
 void TFTView_320x240::loadAppList()
 {
     appList.clear();
@@ -1239,6 +1260,7 @@ void TFTView_320x240::loadAppList()
         m.isBuiltin = true;
         m.iconData = builtins[i].iconData;
         m.iconDataSize = builtins[i].iconDataSize;
+        m.capabilities = parseCapabilities(builtins[i].capabilities);
         appList.push_back(m);
     }
 
@@ -1263,6 +1285,36 @@ static std::string jsonStringField(const std::string &json, const char *key)
     if (end == std::string::npos)
         return "";
     return json.substr(pos, end - pos);
+}
+
+// Extract a JSON string array field: "key": ["a","b"] -> vector<string>
+static std::vector<std::string> jsonStringArrayField(const std::string &json, const char *key)
+{
+    std::vector<std::string> result;
+    std::string pattern = std::string("\"") + key + "\"";
+    size_t pos = json.find(pattern);
+    if (pos == std::string::npos)
+        return result;
+    pos = json.find('[', pos + pattern.size());
+    if (pos == std::string::npos)
+        return result;
+    size_t end = json.find(']', pos);
+    if (end == std::string::npos)
+        return result;
+    std::string arr = json.substr(pos + 1, end - pos - 1);
+    // Parse quoted strings from the array content
+    size_t i = 0;
+    while (i < arr.size()) {
+        size_t q1 = arr.find('"', i);
+        if (q1 == std::string::npos)
+            break;
+        size_t q2 = arr.find('"', q1 + 1);
+        if (q2 == std::string::npos)
+            break;
+        result.push_back(arr.substr(q1 + 1, q2 - q1 - 1));
+        i = q2 + 1;
+    }
+    return result;
 }
 
 void TFTView_320x240::scanSDApps()
@@ -1327,6 +1379,7 @@ void TFTView_320x240::scanSDApps()
         m.isBuiltin = false;
         m.iconData = nullptr;
         m.iconDataSize = 0;
+        m.capabilities = jsonStringArrayField(json, "capabilities");
 
         std::string icon = jsonStringField(json, "icon");
         if (!icon.empty())
@@ -1396,6 +1449,7 @@ void TFTView_320x240::scanSDApps()
         m.isBuiltin = false;
         m.iconData = nullptr;
         m.iconDataSize = 0;
+        m.capabilities = jsonStringArrayField(json, "capabilities");
 
         std::string icon = jsonStringField(json, "icon");
         if (!icon.empty())

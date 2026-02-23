@@ -2,6 +2,7 @@
 
 #include "berry/BerryRuntime.h"
 #include "berry/BerryLVGL.h"
+#include "berry/BerryHTTP.h"
 extern "C" {
 #include "be_exec.h"
 }
@@ -93,6 +94,9 @@ static void registerModulesProtected(bvm *vm, void *data)
     // Register LVGL binding functions
     berry_lvgl_register(vm);
 
+    // Register HTTP and app capability bindings
+    berry_http_register(vm);
+
     // Store runtime pointer as a global so bindings can access it
     be_pushcomptr(vm, runtime);
     be_setglobal(vm, "_berry_runtime");
@@ -120,6 +124,7 @@ bool BerryRuntime::launchApp(const AppManifest &app, lv_obj_t *container)
 
     appContainer = container;
     instructionCount = 0;
+    currentCapabilities = app.capabilities;
 
     // Recreate VM for clean state
     ILOG_DEBUG("[Berry] launchApp: creating VM");
@@ -199,6 +204,7 @@ void BerryRuntime::stopApp()
 
     destroyVM();
     instructionCount = 0;
+    currentCapabilities.clear();
 }
 
 std::string BerryRuntime::readFile(const char *path)
@@ -243,6 +249,15 @@ std::string BerryRuntime::readFile(const char *path)
 #endif
 }
 
+bool BerryRuntime::hasCapability(const std::string &cap) const
+{
+    for (const auto &c : currentCapabilities) {
+        if (c == cap)
+            return true;
+    }
+    return false;
+}
+
 void BerryRuntime::obsHook(bvm *vm, int event, ...)
 {
     // Only handle VM heartbeat for instruction counting
@@ -262,7 +277,8 @@ void BerryRuntime::obsHook(bvm *vm, int event, ...)
     be_pop(vm, 1);
 
     runtime->instructionCount++;
-    if (runtime->instructionCount > MAX_INSTRUCTIONS) {
+    int limit = runtime->currentCapabilities.empty() ? MAX_INSTRUCTIONS : MAX_INSTRUCTIONS_NETWORK;
+    if (runtime->instructionCount > limit) {
         be_raise(vm, "runtime_error", "script exceeded instruction limit");
     }
 }

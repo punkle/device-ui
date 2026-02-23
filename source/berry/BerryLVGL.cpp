@@ -66,6 +66,8 @@ int berry_ui_label(bvm *vm)
     }
 
     lv_obj_t *label = lv_label_create(parent);
+    lv_label_set_long_mode(label, LV_LABEL_LONG_WRAP);
+    lv_obj_set_width(label, lv_pct(100));
 
     // Find text argument: could be arg 1 (if no parent) or arg 2
     const char *text = nullptr;

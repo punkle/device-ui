@@ -1,0 +1,1 @@
+{"name": "Jokes", "version": "1.0", "author": "Meshtastic", "entry": "main.be", "icon": "icon.png", "capabilities": ["http-client"]}

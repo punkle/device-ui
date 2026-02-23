@@ -97,7 +97,12 @@ if has_berry:
                 else:
                     print(f"  WARNING: App {app_dir_name}: icon file '{app_icon}' not found")
 
-            manifest_entries += f'    {{"{app_name}", "{app_version}", "{app_author}", "{app_entry}", app_{app_id}_source, true, {icon_ptr}, {icon_size}}},\n'
+            # Capabilities
+            caps = manifest.get("capabilities", [])
+            caps_str = ",".join(caps) if caps else ""
+            caps_literal = f'"{caps_str}"' if caps_str else "nullptr"
+
+            manifest_entries += f'    {{"{app_name}", "{app_version}", "{app_author}", "{app_entry}", app_{app_id}_source, true, {icon_ptr}, {icon_size}, {caps_literal}}},\n'
             app_count += 1
             print(f"  Built-in app: {app_name} v{app_version} ({app_dir_name})")
 
