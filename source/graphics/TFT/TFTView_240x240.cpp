@@ -29,10 +29,10 @@ TFTView_240x240::TFTView_240x240(const DisplayDriverConfig *cfg, DisplayDriver *
 {
 }
 
-void TFTView_240x240::init(IClientBase *client)
+void TFTView_240x240::init(IClientBase *client, AppLibrary *appLib)
 {
     ILOG_DEBUG("TFTView init...");
-    MeshtasticView::init(client);
+    MeshtasticView::init(client, appLib);
 
     // ui_set_active(ui_HomeButton, ui_HomePanel, ui_TopPanel);
     // ui_events_init();

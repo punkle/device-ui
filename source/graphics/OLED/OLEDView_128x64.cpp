@@ -30,10 +30,10 @@ OLEDView_128x64::OLEDView_128x64(const DisplayDriverConfig *cfg, DisplayDriver *
 {
 }
 
-void OLEDView_128x64::init(IClientBase *client)
+void OLEDView_128x64::init(IClientBase *client, AppLibrary *appLib)
 {
     ILOG_DEBUG("OLEDView_128x64 init...");
-    MeshtasticView::init(client);
+    MeshtasticView::init(client, appLib);
     // ui_events_init();
 }
 

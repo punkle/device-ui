@@ -11,9 +11,9 @@ MeshtasticView::MeshtasticView(const DisplayDriverConfig *cfg, DisplayDriver *dr
 {
 }
 
-void MeshtasticView::init(IClientBase *client)
+void MeshtasticView::init(IClientBase *client, AppLibrary *appLib)
 {
-    DeviceGUI::init(client);
+    DeviceGUI::init(client, appLib);
     // lv_label_set_text(objects.firmware_label, firmware_version);
     controller->init(this, client);
     time(&lastrun20);

@@ -11,7 +11,7 @@
 class TFTView_240x240 : public MeshtasticView
 {
   public:
-    void init(IClientBase *client) override;
+    void init(IClientBase *client, AppLibrary *appLib = nullptr) override;
     void task_handler(void) override;
 
     void addOrUpdateNode(uint32_t nodeNum, uint8_t channel, uint32_t lastHeard, const meshtastic_User &cfg) override {}

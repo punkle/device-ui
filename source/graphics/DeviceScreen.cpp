@@ -45,10 +45,10 @@ DeviceScreen::DeviceScreen(DisplayDriverConfig &&cfg)
     gui = ViewFactory::create(cfg);
 }
 
-void DeviceScreen::init(IClientBase *client)
+void DeviceScreen::init(IClientBase *client, AppLibrary *appLib)
 {
     ILOG_DEBUG("DeviceScreen::init()...");
-    gui->init(client);
+    gui->init(client, appLib);
 
     // #ifdef TFT_BL
     //     digitalWrite(TFT_BL, HIGH);

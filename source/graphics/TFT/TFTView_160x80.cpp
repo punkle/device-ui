@@ -30,10 +30,10 @@ TFTView_160x80::TFTView_160x80(const DisplayDriverConfig *cfg, DisplayDriver *dr
 {
 }
 
-void TFTView_160x80::init(IClientBase *client)
+void TFTView_160x80::init(IClientBase *client, AppLibrary *appLib)
 {
     ILOG_DEBUG("TFTView_160x80 init...");
-    MeshtasticView::init(client);
+    MeshtasticView::init(client, appLib);
 }
 
 void TFTView_160x80::task_handler(void)

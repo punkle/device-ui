@@ -40,13 +40,14 @@ include(LovyanGFX)
 include(LVGL)
 include(protobuf)
 include(nanopb)
+include(mapps)
 include(Doctest)
 
 file(GLOB_RECURSE sources      source/* generated/* portduino/* locale/* generated/${GENERATED_VIEW}/*)
 file(GLOB_RECURSE sources_test tests/*.cpp)
 
 add_library(DeviceUI ${sources})
-target_link_libraries(DeviceUI PRIVATE lvgl::lvgl LovyanGFX Portduino Protobufs)
+target_link_libraries(DeviceUI PRIVATE lvgl::lvgl LovyanGFX Portduino Protobufs mapps)
 target_compile_options(DeviceUI PUBLIC -Wall -Wno-format -Wfloat-conversion)
 
 target_include_directories(DeviceUI PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -71,8 +72,8 @@ if(ENABLE_DOCTESTS)
     include(CTest)
     enable_testing()
     add_executable(tests ${sources_test})
-    target_link_libraries(tests PRIVATE DeviceUI doctest::doctest lvgl::lvgl LovyanGFX Portduino Protobufs)
-    target_include_directories(tests PRIVATE 
+    target_link_libraries(tests PRIVATE DeviceUI doctest::doctest lvgl::lvgl LovyanGFX Portduino Protobufs mapps)
+    target_include_directories(tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/src
         ${CMAKE_CURRENT_SOURCE_DIR}/locale

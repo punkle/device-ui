@@ -7,7 +7,6 @@
 extern "C" {
 #endif
 
-
 // advanced settings
 extern lv_obj_t * ui_AdvancedSettingsPanel;
 extern lv_obj_t * ui_SettingsTabView;
@@ -65,6 +64,18 @@ extern lv_obj_t * ui_RemoteHardwareLabel;
 
 void create_tabview_settings(void);
 
+// Screens
+
+enum ScreensEnum {
+    _SCREEN_ID_FIRST = 1,
+    SCREEN_ID_BOOT_SCREEN = 1,
+    SCREEN_ID_MAIN_SCREEN = 2,
+    SCREEN_ID_BLANK_SCREEN = 3,
+    SCREEN_ID_LOCK_SCREEN = 4,
+    SCREEN_ID_CALIBRATION_SCREEN = 5,
+    _SCREEN_ID_LAST = 5
+};
+
 typedef struct _objects_t {
     lv_obj_t *boot_screen;
     lv_obj_t *main_screen;
@@ -95,6 +106,7 @@ typedef struct _objects_t {
     lv_obj_t *groups_button;
     lv_obj_t *messages_button;
     lv_obj_t *map_button;
+    lv_obj_t *apps_button;
     lv_obj_t *settings_button;
     lv_obj_t *home_panel;
     lv_obj_t *home_container;
@@ -555,14 +567,6 @@ typedef struct _objects_t {
 
 extern objects_t objects;
 
-enum ScreensEnum {
-    SCREEN_ID_BOOT_SCREEN = 1,
-    SCREEN_ID_MAIN_SCREEN = 2,
-    SCREEN_ID_BLANK_SCREEN = 3,
-    SCREEN_ID_LOCK_SCREEN = 4,
-    SCREEN_ID_CALIBRATION_SCREEN = 5,
-};
-
 void create_screen_boot_screen();
 void tick_screen_boot_screen();
 
@@ -585,7 +589,6 @@ void tick_screen_by_id(enum ScreensEnum screenId);
 void tick_screen(int screen_index);
 
 void create_screens();
-
 
 #ifdef __cplusplus
 }

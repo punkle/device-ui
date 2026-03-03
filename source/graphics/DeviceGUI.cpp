@@ -52,8 +52,9 @@ DeviceGUI::DeviceGUI(const DisplayDriverConfig *cfg, DisplayDriver *driver) : di
         inputdriver = InputDriver::instance();
 }
 
-void DeviceGUI::init(IClientBase *client)
+void DeviceGUI::init(IClientBase *client, AppLibrary *appLib)
 {
+    (void)appLib; // subclasses may use this
     ILOG_DEBUG("Display driver init...");
     displaydriver->init(this);
 

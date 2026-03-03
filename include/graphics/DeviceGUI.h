@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 
+class AppLibrary;
 class DisplayDriverConfig;
 class DisplayDriver;
 class InputDriver;
@@ -16,7 +17,7 @@ class DeviceGUI
   public:
     DeviceGUI(const DisplayDriverConfig *cfg, DisplayDriver *driver);
     virtual ~DeviceGUI();
-    virtual void init(IClientBase *client);
+    virtual void init(IClientBase *client, AppLibrary *appLib = nullptr);
     virtual void task_handler(void);
     virtual bool sleep(int16_t pin) { return false; }
     virtual void triggerHeartbeat(void) {}

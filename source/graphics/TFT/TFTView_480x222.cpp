@@ -30,10 +30,10 @@ TFTView_480x222::TFTView_480x222(const DisplayDriverConfig *cfg, DisplayDriver *
 {
 }
 
-void TFTView_480x222::init(IClientBase *client)
+void TFTView_480x222::init(IClientBase *client, AppLibrary *appLib)
 {
     ILOG_DEBUG("TFTView_480x222 init...");
-    MeshtasticView::init(client);
+    MeshtasticView::init(client, appLib);
     ui_init();
 }
 

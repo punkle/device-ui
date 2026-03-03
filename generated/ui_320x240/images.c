@@ -1,9 +1,10 @@
 #include "images.h"
 
-const ext_img_desc_t images[90] = {
+const ext_img_desc_t images[91] = {
     { "meshtastic_boot_logo_image", &img_meshtastic_boot_logo_image },
     { "settings_button_image", &img_settings_button_image },
     { "map_button_image", &img_map_button_image },
+    { "apps_button_image", &img_apps_button_image },
     { "messages_button_image", &img_messages_button_image },
     { "groups_button_image", &img_groups_button_image },
     { "nodes_button_image", &img_nodes_button_image },

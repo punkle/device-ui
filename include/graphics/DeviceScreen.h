@@ -19,7 +19,7 @@ class DeviceScreen
     static DeviceScreen &create(const DisplayDriverConfig *cfg);
     static DeviceScreen &create(DisplayDriverConfig &&cfg);
 
-    void init(IClientBase *client);
+    void init(IClientBase *client, AppLibrary *appLib = nullptr);
     void task_handler(void);
 
 #if defined(ARDUINO_ARCH_ESP32)
